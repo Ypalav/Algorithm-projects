@@ -25,12 +25,40 @@ public class QuickSort {
 		inpArr[high] = temp;
 		return i + 1;
 	}
+	
+	//linear running time when encountered duplicate keys
+	public void threeWayQuickSort(int[] inpArr, int lo, int hi) {
+		if (hi <= lo)
+			return;
+		int lt = lo;
+		int gt = hi;
+		int i = lo;
+		int pivot = inpArr[lo];
+		while (i <= gt) {
+			if (inpArr[i] < pivot) {
+				int temp = inpArr[i];
+				inpArr[i] = inpArr[lt];
+				inpArr[lt] = temp;
+				i++;
+				lt++;
+			} else if (inpArr[i] > pivot) {
+				int temp = inpArr[i];
+				inpArr[i] = inpArr[gt];
+				inpArr[gt] = inpArr[i];
+				gt++;
+			} else {
+				i++;
+			}
+		}
+		threeWayQuickSort(inpArr, lo, lt - 1);
+		threeWayQuickSort(inpArr, gt + 1, hi);
+	}
 
 	public static void main(String args[]) {
 		QuickSort quickSort = new QuickSort();
 		int[] inpArr = { 10, 7, 8, 9, 1, 5 };
 		quickSort.sort(inpArr, 0, inpArr.length - 1);
-
+		quickSort.threeWayQuickSort(inpArr, 0, inpArr.length - 1);
 		for (int i = 0; i < inpArr.length; i++) {
 			System.out.println(inpArr[i]);
 		}
